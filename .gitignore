@@ -9,6 +9,9 @@ dist/
 web-build/
 expo-env.d.ts
 
+# Kiro 
+/.Kiro
+
 # Native
 .kotlin/
 *.orig.*
