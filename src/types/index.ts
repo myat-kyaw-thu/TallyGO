@@ -143,12 +143,16 @@ export interface StorageServiceInterface {
 
 export interface SupabaseServiceInterface {
   // Authentication
-  signUp(email: string, password: string): Promise<User>;
+  signUp(email: string, password: string, redirectURL?: string): Promise<User>;
   signIn(email: string, password: string): Promise<User>;
   signOut(): Promise<void>;
   getCurrentUser(): Promise<User | null>;
   refreshSession(): Promise<User | null>;
   deleteAccount(): Promise<void>;
+  setSession(accessToken: string, refreshToken: string): Promise<{ error: any; }>;
+  resetPassword(email: string, redirectURL?: string): Promise<void>;
+  updatePassword(newPassword: string): Promise<void>;
+  handleDeepLinkAuth(url: string): Promise<{ success: boolean; error?: string; }>;
 
   // Data operations (same as StorageServiceInterface for consistency)
   getExpenses(): Promise<Expense[]>;
@@ -312,6 +316,7 @@ export interface UseExpensesReturn {
   getExpiryInfo: () => Promise<ExpiryInfo>;
   refreshExpenses: () => Promise<void>;
   syncStatus: SyncStatus;
+  syncExpenses: () => Promise<void>;
 }
 
 export interface UseAuthReturn {
@@ -327,8 +332,9 @@ export interface UseAuthReturn {
   upgradeToAuthenticated: (email: string, password: string) => Promise<void>;
   deleteAccount: () => Promise<void>;
   showAuthScreens: () => void;
-  confirmEmail: (email: string, code: string) => Promise<void>;
-  resendConfirmation: (email: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (newPassword: string) => Promise<void>;
+  handleDeepLinkAuth: (url: string) => Promise<{ success: boolean; error?: string; }>;
   clearError: () => void;
 }
 
